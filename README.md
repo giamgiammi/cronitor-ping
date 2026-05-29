@@ -12,6 +12,9 @@ A small utility that periodically pings a [Cronitor](https://cronitor.io/) (or a
 - 👤 Runs sandboxed under a `DynamicUser` with no extra privileges
 - 📦 Includes a `Makefile` and a script to build a `.deb` package
 
+## Disclaimer on AI usage
+I used generative AIs for this readme, the Makefile and create-deb.sh script.
+
 ## How It Works
 
 The core is a single Bash script (`cronitor-ping.sh`) executed by a systemd service:
