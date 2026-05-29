@@ -9,3 +9,4 @@ LoadCredential=cronitor.url:/etc/cronitor.url
 RuntimeDirectory=cronitor-ping
 Type=simple
 DynamicUser=yes
+Restart=no
