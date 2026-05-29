@@ -25,6 +25,7 @@ The core is a single Bash script (`cronitor-ping.sh`) executed by a systemd serv
 4. `curl` performs a GET request to the URL, attaching:
     - `msg=uptime: <uptime>`
     - `metric=count:<counter>`
+    - `metric=error_counter:<error_counter>`
 
 A companion `systemd` timer triggers the service on the schedule `*:0/5:00` (every 5 minutes) and is `Persistent`, so missed runs are caught up after downtime.
 
@@ -42,10 +43,8 @@ A companion `systemd` timer triggers the service on the schedule `*:0/5:00` (eve
 
 This installs:
 
-- The script to `$(PREFIX)/bin/cronitor-ping.sh` (default `PREFIX` is `/usr/local`)
+- The script to `$(PREFIX)/sbin/cronitor-ping` (default `PREFIX` is `/usr/local` except for deb where is /opt/crontinor-ping)
 - The service and timer units to `/lib/systemd/system`
-
-You can customize the install location:
 
 To uninstall:
 ```sudo make uninstall```
