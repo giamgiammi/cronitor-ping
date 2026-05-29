@@ -75,8 +75,11 @@ if curl --max-time "$MAX_TIME" \
     --data-urlencode "metric=count:$counter" \
     --data-urlencode "metric=error_count:$error_counter" \
     "$URL" > /dev/null ; then
-        rm "$ERROR_COUNTER_FILE"
+        # resetting error_counter
+        [ -f "$ERROR_COUNTER_FILE" ] && rm "$ERROR_COUNTER_FILE"
 else
+    # increment error_counter
     (( error_counter++ ))
+    # save new error_counter
     printf "%s\n" "$error_counter" > "$ERROR_COUNTER_FILE"
 fi
