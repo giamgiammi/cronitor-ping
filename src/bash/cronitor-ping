@@ -1,14 +1,18 @@
 #!/bin/bash
 
-# Load url from credential directory
+# Check credential directory
 if [ -z "$CREDENTIALS_DIRECTORY" ]; then
     echo "Error: missing CREDENTIALS_DIRECTORY env" >&2
     exit 1
-elif ! [ -f "$CREDENTIALS_DIRECTORY/cronitor.url" ]; then
+fi
+
+# Load url from credential directory
+URL_FILE="$CREDENTIALS_DIRECTORY/cronitor.url"
+if ! [ -f "$URL_FILE" ]; then
     echo "Error: missing cronitor.url" >&2
     exit 2
 else
-    URL="$(< "$CREDENTIALS_DIRECTORY/cronitor.url")"
+    URL="$(< "$URL_FILE")"
 fi
 
 # Check if url is valid
@@ -17,13 +21,17 @@ if ! [[ "$URL" =~ ^http(s)?://.* ]]; then
     exit 4
 fi
 
-# Retrieve and update counter
-counter=0
+# Check runtime directory
 if [ -z "$RUNTIME_DIRECTORY" ]; then
     echo "Error: missing RUNTIME_DIRECTORY" >&2
     exit 3
-elif [ -f "$RUNTIME_DIRECTORY/counter" ]; then
-    counter="$(< "$RUNTIME_DIRECTORY/counter")"
+fi
+
+# Retrieve counter
+counter=0
+COUNTER_FILE="$RUNTIME_DIRECTORY/counter"
+if [ -f "$COUNTER_FILE" ]; then
+    counter="$(< "$COUNTER_FILE")"
 
     # validate counter
     if ! [[ "$counter" =~ ^[0-9]+$ ]]; then
@@ -36,7 +44,20 @@ fi
 (( counter++ ))
 
 # save new counter
-printf "%s\n" "$counter" > "$RUNTIME_DIRECTORY/counter"
+printf "%s\n" "$counter" > "$COUNTER_FILE"
+
+# Retrieve error counter
+error_counter=0
+ERROR_COUNTER_FILE="$RUNTIME_DIRECTORY/error_counter"
+if [ -f "$ERROR_COUNTER_FILE" ]; then
+    error_counter="$(< "$ERROR_COUNTER_FILE")"
+
+    # validate counter
+    if ! [[ "$error_counter" =~ ^[0-9]+$ ]]; then
+        echo "Error: error_counter has invalid value, forcing 0" >&2
+        error_counter=0
+    fi
+fi
 
 # Retrieve uptime
 UPTIME="$(uptime -p)"
@@ -47,9 +68,15 @@ if [ -z "$MAX_TIME" ]; then
 fi
 
 # Calling curl with parameters
-curl --max-time "$MAX_TIME" \
+if curl --max-time "$MAX_TIME" \
     --silent \
     --get \
     --data-urlencode "msg=uptime: $UPTIME" \
     --data-urlencode "metric=count:$counter" \
-    "$URL" > /dev/null
+    --data-urlencode "metric=error_count:$error_counter" \
+    "$URL" > /dev/null ; then
+        rm "$ERROR_COUNTER_FILE"
+else
+    (( error_counter++ ))
+    printf "%s\n" "$error_counter" > "$ERROR_COUNTER_FILE"
+fi
