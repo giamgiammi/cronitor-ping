@@ -17,7 +17,7 @@ all:
 	@echo "Nothing to build. Run 'make install' to install $(PACKAGE)."
 
 install:
-	$(INSTALL) -D -m 0755 "$(SRC_SCRIPT)" "$(DESTDIR)$(BINDIR)/cronitor-ping.sh"
+	$(INSTALL) -D -m 0555 "$(SRC_SCRIPT)" "$(DESTDIR)$(BINDIR)/cronitor-ping.sh"
 
 	$(INSTALL) -d "$(DESTDIR)$(SYSTEMD_UNIT_DIR)"
 	$(SED) "s|%PREFIX|$(PREFIX)|g" "$(SRC_SERVICE)" > "$(DESTDIR)$(SYSTEMD_UNIT_DIR)/cronitor-ping.service"
