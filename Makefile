@@ -1,7 +1,7 @@
 PACKAGE := cronitor-ping
 
 PREFIX ?= /usr/local
-BINDIR := $(PREFIX)/bin
+BINDIR := $(PREFIX)/sbin
 SYSTEMD_UNIT_DIR ?= /lib/systemd/system
 
 SRC_SCRIPT := src/bash/cronitor-ping.sh

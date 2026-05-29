@@ -4,7 +4,7 @@ After=network.target network-online.target
 Requisite=network.target network-online.target
 
 [Service]
-ExecStart=%PREFIX/bin/cronitor-ping.sh
+ExecStart=%PREFIX/sbin/cronitor-ping
 LoadCredential=cronitor.url:/etc/cronitor.url
 RuntimeDirectory=cronitor-ping
 RuntimeDirectoryPreserve=yes

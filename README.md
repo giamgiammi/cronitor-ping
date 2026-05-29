@@ -28,19 +28,6 @@ The core is a single Bash script (`cronitor-ping.sh`) executed by a systemd serv
 
 A companion `systemd` timer triggers the service on the schedule `*:0/5:00` (every 5 minutes) and is `Persistent`, so missed runs are caught up after downtime.
 
-## Project Structure
-```. 
-├── Makefile # install / uninstall targets 
-├── create-deb.sh # builds a .deb package 
-└── src 
-   ├── bash 
-      │ 
-      └── cronitor-ping.sh # the ping script 
-   └── systemd 
-      ├── cronitor-ping.service # systemd service unit 
-      └── cronitor-ping.timer # systemd timer unit
-```
-
 ## Requirements
 
 - `bash`

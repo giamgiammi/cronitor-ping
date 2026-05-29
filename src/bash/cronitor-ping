@@ -11,6 +11,12 @@ else
     URL="$(< "$CREDENTIALS_DIRECTORY/cronitor.url")"
 fi
 
+# Check if url is valid
+if ! [[ "$URL" =~ ^http(s)?://.* ]]; then
+    echo "Error: invalid url" >&2
+    exit 4
+fi
+
 # Retrieve and update counter
 counter=0
 if [ -z "$RUNTIME_DIRECTORY" ]; then
@@ -46,4 +52,4 @@ curl --max-time "$MAX_TIME" \
     --get \
     --data-urlencode "msg=uptime: $UPTIME" \
     --data-urlencode "metric=count:$counter" \
-    "$URL"
+    "$URL" > /dev/null
