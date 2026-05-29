@@ -41,7 +41,7 @@ if [ -z "$MAX_TIME" ]; then
 fi
 
 # Calling curl with parameters
-curl --max-time="$MAX_TIME" \
+curl --max-time "$MAX_TIME" \
     --silent \
     --get \
     --data-urlencode "msg=uptime: $UPTIME" \
