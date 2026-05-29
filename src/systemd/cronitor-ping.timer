@@ -1,0 +1,10 @@
+[Unit]
+Description=Run cronitor-ping every 5 min
+
+[Timer]
+OnCalendar=*:0/5:00
+Persistent=True
+Unit=cronitor-ping.service
+
+[Install]
+WantedBy=timers.target

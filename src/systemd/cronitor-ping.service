@@ -1,0 +1,11 @@
+[Unit]
+Description=Ping cronitor service at the specified url
+After=network.target network-online.target
+Requisite=network.target network-online.target
+
+[Service]
+ExecStart=%PREFIX/bin/cronitor-ping.sh
+LoadCredential=cronitor.url:/etc/cronitor.url
+RuntimeDirectory=cronitor-ping
+Type=simple
+DynamicUser=yes
