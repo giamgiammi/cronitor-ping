@@ -1,9 +1,9 @@
 #!/bin/bash
 
 checkinstall \
+    --default \
     --pkgname=cronitor-ping \
     --pkgversion=1.0 \
-    --backup=no \
-    --nodoc=yes \
-    --fstrans=no \
+    --nodoc \
+    --fstrans=yes \
     make install PREFIX=/opt/cronitor-ping

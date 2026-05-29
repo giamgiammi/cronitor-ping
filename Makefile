@@ -17,13 +17,12 @@ all:
 	@echo "Nothing to build. Run 'make install' to install $(PACKAGE)."
 
 install:
-	$(INSTALL) -d "$(DESTDIR)$(BINDIR)"
-	$(INSTALL) -m 0755 "$(SRC_SCRIPT)" "$(DESTDIR)$(BINDIR)/cronitor-ping.sh"
+	$(INSTALL) -D -m 0755 "$(SRC_SCRIPT)" "$(DESTDIR)$(BINDIR)/cronitor-ping.sh"
 
 	$(INSTALL) -d "$(DESTDIR)$(SYSTEMD_UNIT_DIR)"
 	$(SED) "s|%PREFIX|$(PREFIX)|g" "$(SRC_SERVICE)" > "$(DESTDIR)$(SYSTEMD_UNIT_DIR)/cronitor-ping.service"
 	chmod 0644 "$(DESTDIR)$(SYSTEMD_UNIT_DIR)/cronitor-ping.service"
-	$(INSTALL) -m 0644 "$(SRC_TIMER)" "$(DESTDIR)$(SYSTEMD_UNIT_DIR)/cronitor-ping.timer"
+	$(INSTALL) -D -m 0644 "$(SRC_TIMER)" "$(DESTDIR)$(SYSTEMD_UNIT_DIR)/cronitor-ping.timer"
 
 uninstall:
 	rm -f "$(DESTDIR)$(BINDIR)/cronitor-ping.sh"
