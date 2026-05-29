@@ -24,13 +24,13 @@ elif [ -f "$RUNTIME_DIRECTORY/counter" ]; then
         echo "Error: counter has invalid value, forcing 0" >&2
         counter=0
     fi
-
-    # increment counter
-    (( counter++ ))
-
-    # save new counter
-    printf "%s\n" "$counter" > "$RUNTIME_DIRECTORY/counter"
 fi
+
+# increment counter
+(( counter++ ))
+
+# save new counter
+printf "%s\n" "$counter" > "$RUNTIME_DIRECTORY/counter"
 
 # Retrieve uptime
 UPTIME="$(uptime -p)"
